@@ -9,11 +9,7 @@ export class ChatWindow extends Component {
       username: "",
       text: ""
     },
-    messages: [
-      { username: "Amy", text: "Hi, Jon!" },
-      { username: "Amy", text: "How are you?" },
-      { username: "John", text: "Hi, Amy! Good, you?" }
-    ]
+    isDisabled: true
   };
   handleInputChange = ({ target: { value, name } }) => {
     this.setState(currentState => ({
@@ -21,22 +17,30 @@ export class ChatWindow extends Component {
         ...currentState.message,
         username: name,
         text: value
-      }
+      },
+      isDisabled: false
     }));
   };
-
-  handleSendText = () => {
-    this.setState(state => ({
-      messages: [...state.messages, state.message]
+  handleClick = () => {
+    const { handleMessage } = this.props;
+    const { message } = this.state;
+    handleMessage(message);
+    this.setState(currentState => ({
+      message: {
+        ...currentState.message,
+        username: "",
+        text: ""
+      },
+      isDisabled: true
     }));
   };
   render() {
-    const { user } = this.props;
+    const { messages, user } = this.props;
     return (
       <div className="chat-window">
         <h2>Super Awesome Chat</h2>
         <div className="name sender">{user}</div>
-        <MessageList messages={this.state.messages} />
+        <MessageList messages={messages} />
         <div>
           <div className="input-group">
             <Input
@@ -45,7 +49,10 @@ export class ChatWindow extends Component {
               handleChange={this.handleInputChange}
             />
             <div className="input-group-append">
-              <Button handClick={this.handleSendText} />
+              <Button
+                handClick={this.handleClick}
+                isDisabled={this.state.isDisabled}
+              />
             </div>
           </div>
         </div>

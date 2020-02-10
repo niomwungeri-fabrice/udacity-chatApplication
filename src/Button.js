@@ -1,12 +1,12 @@
 import React from "react";
 
 const Button = props => {
-  const { handClick } = props;
+  const { handClick, isDisabled } = props;
   return (
     <button
       onClick={handClick}
       className="btn submit-button"
-      disabled={props.isDisabled}
+      disabled={isDisabled}
     >
       SEND
     </button>

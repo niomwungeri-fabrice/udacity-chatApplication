@@ -12,7 +12,14 @@ class App extends Component {
   If the user did not type anything, he/she should not be
   allowed to submit.
   */
-
+  state = {
+    messages: []
+  };
+  handleSendText = message => {
+    this.setState(state => ({
+      messages: [...state.messages, message]
+    }));
+  };
   render() {
     return (
       <div className="App">
@@ -20,8 +27,16 @@ class App extends Component {
           <h1 className="App-title">ReactND - Coding Practice</h1>
         </header>
         <div className="container">
-          <ChatWindow user="Amy" />
-          <ChatWindow user="John" />
+          <ChatWindow
+            user="Amy"
+            handleMessage={this.handleSendText}
+            messages={this.state.messages}
+          />
+          <ChatWindow
+            user="John"
+            handleMessage={this.handleSendText}
+            messages={this.state.messages}
+          />
         </div>
       </div>
     );
